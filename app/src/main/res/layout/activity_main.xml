@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/appBackground"
+    tools:context="naman.com.silentwifi.MainActivity"
+    android:orientation="vertical"
+    android:weightSum="10">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:layout_weight="1">
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="wrap_content"
+            android:padding="30dp"
+            android:layout_gravity="clip_horizontal|center_vertical"
+            android:layout_height="wrap_content"
+            android:background="@drawable/buttonshape"
+            android:onClick="startstopButton"
+            android:text=" Start \nservice"
+
+            android:textAllCaps="true"
+            android:textColor="@color/colorAccent"
+            android:textSize="35sp" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="9">
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textStyle="bold"
+            android:background="@color/highlight"
+            android:textColor="@color/colorAccent"
+            android:text="Click to add location to safe zones"/>
+    </LinearLayout>
+
+</LinearLayout>
