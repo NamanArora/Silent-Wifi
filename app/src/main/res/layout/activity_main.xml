@@ -37,6 +37,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:textStyle="bold"
+            android:id="@+id/addloc"
+            android:onClick="addloc"
             android:background="@color/highlight"
             android:textColor="@color/colorAccent"
             android:text="Click to add location to safe zones"/>

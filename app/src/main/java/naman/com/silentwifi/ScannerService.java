@@ -2,8 +2,10 @@ package naman.com.silentwifi;
 
 import android.app.IntentService;
 import android.app.Service;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.net.wifi.WifiManager;
@@ -27,16 +29,17 @@ import com.google.android.gms.location.LocationServices;
  * Created by Naman on 08-04-2017.
  */
 
-public class ScannerService extends Service implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
+public class ScannerService extends Service implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener   {
 
     private static final float THRESHOLD_DIST_IN_METRE = 30;
     private static int UPDATE_INTERVAL = 10*1000;
     private static int FAST_INTERVAL = 5*1000;
-    private GoogleApiClient mGoogleApiClient;
+    public static GoogleApiClient mGoogleApiClient;
     private Location mCurrentLocation;
     private WifiHandler mWifiHandler;
     Handler handler;
     Runnable r;
+    private BroadcastReceiver receiver;
 
     private void fetchLocation() {
         //TODO: IMPLEMENT ASKING FOR PERMISSION HERE
@@ -64,6 +67,20 @@ public class ScannerService extends Service implements GoogleApiClient.Connectio
         super.onCreate();
         //first this is called then onstart
         //Log.d("scanner","first");
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(MainActivity.BROADCAST_ACTION);
+        receiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                String action = intent.getAction();
+                if(action.equals(MainActivity.BROADCAST_ACTION) )
+                {
+                    Log.d("scanner", "broadcast received");
+                }
+                else
+                    Log.d("scanner", "broadcast failed");
+            }
+        };
         mWifiHandler = new WifiHandler();
         mCurrentLocation = new Location("");
         mCurrentLocation.setLatitude(0);
@@ -75,6 +92,7 @@ public class ScannerService extends Service implements GoogleApiClient.Connectio
                     .addApi(LocationServices.API)
                     .build();
         }
+        registerReceiver(receiver, filter);
     }
 
     @Override
@@ -121,8 +139,10 @@ public class ScannerService extends Service implements GoogleApiClient.Connectio
         super.onDestroy();
         mGoogleApiClient.disconnect();
         handler.removeCallbacks(r);
-
+        unregisterReceiver(receiver);
     }
+
+
 
     @Override
     public void onLocationChanged(Location location) {
@@ -143,6 +163,9 @@ public class ScannerService extends Service implements GoogleApiClient.Connectio
                 mWifiHandler.openWifi();
         }
     }
+
+
+
 
     public class WifiHandler
     {
