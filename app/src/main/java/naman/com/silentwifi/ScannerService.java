@@ -29,13 +29,14 @@ import com.google.android.gms.location.LocationServices;
  * Created by Naman on 08-04-2017.
  */
 
-public class ScannerService extends Service implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener   {
+public class ScannerService extends Service implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
     private static final float THRESHOLD_DIST_IN_METRE = 30;
-    private static int UPDATE_INTERVAL = 10*1000;
-    private static int FAST_INTERVAL = 5*1000;
+    private static int UPDATE_INTERVAL = 10 * 1000;
+    private static int FAST_INTERVAL = 5 * 1000;
     public static GoogleApiClient mGoogleApiClient;
-    private Location mCurrentLocation;
+    //private Location mCurrentLocation;
+    private Location home = new Location("");
     private WifiHandler mWifiHandler;
     Handler handler;
     Runnable r;
@@ -69,22 +70,33 @@ public class ScannerService extends Service implements GoogleApiClient.Connectio
         //Log.d("scanner","first");
         IntentFilter filter = new IntentFilter();
         filter.addAction(MainActivity.BROADCAST_ACTION);
+        home.setLongitude(0);
+        home.setLatitude(0);
         receiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
                 String action = intent.getAction();
-                if(action.equals(MainActivity.BROADCAST_ACTION) )
-                {
-                    Log.d("scanner", "broadcast received");
+                if (action.equals(MainActivity.BROADCAST_ACTION)) {
+                    if (ActivityCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                        // TODO: Consider calling
+                        //    ActivityCompat#requestPermissions
+                        // here to request the missing permissions, and then overriding
+                        //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                        //                                          int[] grantResults)
+                        // to handle the case where the user grants the permission. See the documentation
+                        // for ActivityCompat#requestPermissions for more details.
+                        return;
+                    }
+                    home = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+                    Log.d("scanner", "New lat:" + home.getLatitude() + " long:" + home.getLongitude());
+                    //Log.d("scanner", "broadcast received");
                 }
                 else
                     Log.d("scanner", "broadcast failed");
             }
         };
+
         mWifiHandler = new WifiHandler();
-        mCurrentLocation = new Location("");
-        mCurrentLocation.setLatitude(0);
-        mCurrentLocation.setLongitude(0);
         if (mGoogleApiClient == null) {
             mGoogleApiClient = new GoogleApiClient.Builder(this)
                     .addConnectionCallbacks(this)
@@ -148,13 +160,13 @@ public class ScannerService extends Service implements GoogleApiClient.Connectio
     public void onLocationChanged(Location location) {
         Log.d("scanner","update");
         //TODO: ADD SUPPORT FOR MULTIPLE LOCATIONS AND SAVING THEM!
-        if(mCurrentLocation.distanceTo(location) >= THRESHOLD_DIST_IN_METRE) {
+        if(home.distanceTo(location) >= THRESHOLD_DIST_IN_METRE) {
             //we are outside safe zone, turn off wifi
             if(mWifiHandler.getStatus())
                 mWifiHandler.closeWifi();
             Log.d("scanner", "lat: " + location.getLatitude());
             Log.d("scanner", "long: " + location.getLongitude());
-            mCurrentLocation = location;
+            //mCurrentLocation = location;
         }
         else
         {
