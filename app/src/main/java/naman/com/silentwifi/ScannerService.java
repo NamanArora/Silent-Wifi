@@ -6,6 +6,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.net.wifi.WifiManager;
@@ -41,6 +42,7 @@ public class ScannerService extends Service implements GoogleApiClient.Connectio
     Handler handler;
     Runnable r;
     private BroadcastReceiver receiver;
+    private SharedPreferences pref;
 
     private void fetchLocation() {
         //TODO: IMPLEMENT ASKING FOR PERMISSION HERE
@@ -67,11 +69,17 @@ public class ScannerService extends Service implements GoogleApiClient.Connectio
     public void onCreate() {
         super.onCreate();
         //first this is called then onstart
-        //Log.d("scanner","first");
+        Log.d("scanner","oncreate called");
         IntentFilter filter = new IntentFilter();
+        pref = getApplicationContext().getSharedPreferences("com.naman.loc.home",Context.MODE_PRIVATE);
         filter.addAction(MainActivity.BROADCAST_ACTION);
-        home.setLongitude(0);
-        home.setLatitude(0);
+
+        //try fetching existing coordinates or set 0
+        home.setLongitude(getDouble(pref, "longitude", 0));
+        home.setLatitude(getDouble(pref, "latitude", 0));
+        Log.d("scanner", "home lat: " + home.getLatitude());
+        Log.d("scanner", "home long: " + home.getLongitude());
+
         receiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -88,6 +96,8 @@ public class ScannerService extends Service implements GoogleApiClient.Connectio
                         return;
                     }
                     home = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+                    putDouble(pref.edit(),"longitude",home.getLongitude()).apply();
+                    putDouble(pref.edit(),"latitude",home.getLatitude()).apply();
                     Log.d("scanner", "New lat:" + home.getLatitude() + " long:" + home.getLongitude());
                     //Log.d("scanner", "broadcast received");
                 }
@@ -105,6 +115,14 @@ public class ScannerService extends Service implements GoogleApiClient.Connectio
                     .build();
         }
         registerReceiver(receiver, filter);
+    }
+
+    SharedPreferences.Editor putDouble(final SharedPreferences.Editor edit, final String key, final double value) {
+        return edit.putLong(key, Double.doubleToRawLongBits(value));
+    }
+
+    double getDouble(final SharedPreferences prefs, final String key, final double defaultValue) {
+        return Double.longBitsToDouble(prefs.getLong(key, Double.doubleToLongBits(defaultValue)));
     }
 
     @Override
@@ -166,6 +184,7 @@ public class ScannerService extends Service implements GoogleApiClient.Connectio
                 mWifiHandler.closeWifi();
             Log.d("scanner", "lat: " + location.getLatitude());
             Log.d("scanner", "long: " + location.getLongitude());
+            Log.d("scanner", "DIST: " + home.distanceTo(location));
             //mCurrentLocation = location;
         }
         else
