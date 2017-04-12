@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Silent Wifi</string>
+    <string name="silent_wifi_created_by_hell_lock_only_for_testing_purposes">Silent wifi created by hell_lock. Only for testing purposes.</string>
+    <string name="nversion_0_1_pre_alpha">Version: 0.1 pre-alpha</string>
+    <string name="source_xda">Source: XDA</string>
+    <string name="thanks_alot_for_testing_feel_free_to_report_bugs_feature_requests_anything_on_the_xda_thread_itself">Thanks alot for testing. Feel free to report bugs/feature requests anything on the xda thread itself.</string>
+    <string name="about">About</string>
+    <string name="mainbutton">Start  service</string>
+    <string name="addloc">Click to add current location to safe zone</string>
 </resources>

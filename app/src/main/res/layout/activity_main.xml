@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/buttonshape"
             android:onClick="startstopButton"
-            android:text=" Start \nservice"
+            android:text="@string/mainbutton"
 
             android:textAllCaps="true"
             android:textColor="@color/colorAccent"
@@ -41,7 +41,7 @@
             android:onClick="addloc"
             android:background="@color/highlight"
             android:textColor="@color/colorAccent"
-            android:text="Click to add location to safe zones"/>
+            android:text="@string/addloc"/>
     </LinearLayout>
 
 </LinearLayout>
