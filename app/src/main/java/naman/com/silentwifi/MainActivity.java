@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     private int status;
     private SharedPreferences preferences;
     private Button button;
+    private Button add;
     SQLiteDatabase db;
 
     @Override
@@ -34,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
         db = new CoordinatesStorage(getApplicationContext()).getWritableDatabase();
         intent = new Intent(this, ScannerService.class);
         button = (Button) findViewById(R.id.button);
+        add = (Button) findViewById(R.id.addloc);
         preferences = getApplicationContext().getSharedPreferences("com.naman.button.status", Context.MODE_PRIVATE);
         status = preferences.getInt("button", 1);
         Log.d("scanner", "read=" + status);
@@ -50,13 +52,13 @@ public class MainActivity extends AppCompatActivity {
     public void startstopButton(View view) {
         if (status == 1) {
             start();
-
+            add.setVisibility(View.VISIBLE);
             //button.setBackgroundColor(Color.RED);
             status = 0;
             updatetext();
         } else {
             stop();
-
+            add.setVisibility(View.INVISIBLE);
             //button.setBackgroundColor(Color.GREEN);
             status = 1;
             updatetext();

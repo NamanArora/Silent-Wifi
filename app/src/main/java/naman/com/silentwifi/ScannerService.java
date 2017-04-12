@@ -168,6 +168,7 @@ public class ScannerService extends Service implements GoogleApiClient.Connectio
     public void onDestroy() {
         super.onDestroy();
         mGoogleApiClient.disconnect();
+        if(handler != null)
         handler.removeCallbacks(r);
         unregisterReceiver(receiver);
     }
