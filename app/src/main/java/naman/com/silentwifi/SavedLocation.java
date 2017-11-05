@@ -29,11 +29,11 @@ public class SavedLocation extends AppCompatActivity {
 
     private void init() {
         ButterKnife.bind(this);
-        fetchData();
         LinearLayoutManager layout = new LinearLayoutManager(this);
         recycler.setLayoutManager(layout);
         adapter = new LocationAdapter(locations);
         recycler.setAdapter(adapter);
+        fetchData();
     }
 
     private void fetchData() {
