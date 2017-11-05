@@ -61,7 +61,6 @@ public class ScannerService extends Service implements GoogleApiClient.Connectio
         request.setInterval(UPDATE_INTERVAL);
         request.setFastestInterval(FAST_INTERVAL);
         request.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
-
         LocationServices.FusedLocationApi.requestLocationUpdates(
                 mGoogleApiClient, request, this);
     }
