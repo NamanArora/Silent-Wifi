@@ -35,6 +35,7 @@ public class ScannerService extends Service implements GoogleApiClient.Connectio
     private static final float THRESHOLD_DIST_IN_METRE = 30;
     private static int UPDATE_INTERVAL = 10 * 1000;
     private static int FAST_INTERVAL = 5 * 1000;
+    private static int toggle=false;
     public static GoogleApiClient mGoogleApiClient;
     //private Location mCurrentLocation;
     private Location home = new Location("");
@@ -181,8 +182,11 @@ public class ScannerService extends Service implements GoogleApiClient.Connectio
         //TODO: ADD SUPPORT FOR MULTIPLE LOCATIONS AND SAVING THEM!
         if(home.distanceTo(location) >= THRESHOLD_DIST_IN_METRE) {
             //we are outside safe zone, turn off wifi
-            if(mWifiHandler.getStatus())
+            if(mWifiHandler.getStatus() && toggle==1){
                 mWifiHandler.closeWifi();
+                toggle=0;
+            }
+
             Log.d("scanner", "lat: " + location.getLatitude());
             Log.d("scanner", "long: " + location.getLongitude());
             Log.d("scanner", "DIST: " + home.distanceTo(location));
@@ -191,8 +195,11 @@ public class ScannerService extends Service implements GoogleApiClient.Connectio
         else
         {
             //we are in safe zone, turn on wifi
-            if(!mWifiHandler.getStatus())
+            if(!mWifiHandler.getStatus() && toggle==0){
                 mWifiHandler.openWifi();
+                toggle=1;
+            }
+
         }
     }
 
