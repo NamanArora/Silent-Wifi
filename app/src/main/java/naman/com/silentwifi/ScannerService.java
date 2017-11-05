@@ -35,7 +35,7 @@ public class ScannerService extends Service implements GoogleApiClient.Connectio
     private static final float THRESHOLD_DIST_IN_METRE = 30;
     private static int UPDATE_INTERVAL = 10 * 1000;
     private static int FAST_INTERVAL = 5 * 1000;
-    private static int toggle=false;
+    private static int toggle=0;
     public static GoogleApiClient mGoogleApiClient;
     //private Location mCurrentLocation;
     private Location home = new Location("");
