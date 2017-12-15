@@ -16,6 +16,7 @@ public class CoordinatesStorage extends SQLiteOpenHelper {
     public static class DB implements BaseColumns
     {
         public static final String table_name = "LOCATION";
+        public static final String title = "TITLE";
         public static final String latitude = "latitude";
         public static final String longitude = "longitude";
     }
@@ -27,6 +28,7 @@ public class CoordinatesStorage extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE "+ DB.table_name + "("
+                + DB.title + " TEXT,"
                 + DB.latitude + " FLOAT,"
                 + DB.longitude + " FLOAT)");
     }
