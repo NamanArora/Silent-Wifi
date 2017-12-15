@@ -7,4 +7,5 @@
     <string name="about">About</string>
     <string name="mainbutton">Start  service</string>
     <string name="addloc">Click to add current location to safe zone</string>
+    <string name="location">Locations</string>
 </resources>

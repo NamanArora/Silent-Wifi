@@ -111,11 +111,17 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        Intent i;
         switch(item.getItemId())
         {
-            case R.id.about:
-                Intent i = new Intent(this, About.class);
+            case R.id.locations:
+                i= new Intent(this, SavedLocation.class);
                 startActivity(i);
+                break;
+            case R.id.about:
+                i = new Intent(this, About.class);
+                startActivity(i);
+                break;
         }
         return super.onOptionsItemSelected(item);
     }

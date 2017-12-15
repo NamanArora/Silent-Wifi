@@ -31,6 +31,7 @@ public class SavedLocation extends AppCompatActivity {
         ButterKnife.bind(this);
         LinearLayoutManager layout = new LinearLayoutManager(this);
         recycler.setLayoutManager(layout);
+        locations = new ArrayList();
         adapter = new LocationAdapter(locations);
         recycler.setAdapter(adapter);
         fetchData();
