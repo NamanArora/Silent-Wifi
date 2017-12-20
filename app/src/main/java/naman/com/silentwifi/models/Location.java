@@ -9,6 +9,12 @@ public class Location {
     private float latitude;
     private float longitude;
 
+    public Location(String title, float latitude, float longitude) {
+        this.title = title;
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
+
     public void setTitle(String title) {
         this.title = title;
     }
