@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Silent-Wifi.iml" filepath="$PROJECT_DIR$/Silent-Wifi.iml" />
-      <module fileurl="file://$PROJECT_DIR$/SilentWifi.iml" filepath="$PROJECT_DIR$/SilentWifi.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

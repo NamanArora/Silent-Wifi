@@ -4,9 +4,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import naman.com.silentwifi.R;
 import naman.com.silentwifi.models.Location;
@@ -31,7 +33,9 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
     @Override
     public void onBindViewHolder(ViewHolder holder, int pos) {
         //change stuff tv.setText(lcoations[pos].abc)
-
+        holder.title.setText(locations.get(pos).getTitle());
+        holder.latitude.setText(locations.get(pos).getLatitude() + "");
+        holder.longitude.setText(locations.get(pos).getLongitude() + "");
     }
 
     @Override
@@ -40,6 +44,9 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.title) TextView title;
+        @BindView(R.id.title) TextView latitude;
+        @BindView(R.id.title) TextView longitude;
 
         public ViewHolder(View v) {
             super(v);
